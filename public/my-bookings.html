@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ve cua toi - SkyBooking</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/"><span class="logo">&#9992;</span> SkyBooking</a>
+      <nav class="menu">
+        <a href="/">Tim chuyen bay</a>
+        <a href="/my-bookings.html" class="active">Ve cua toi</a>
+        <a href="/admin.html">Quan tri</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2 style="margin-bottom:14px">Tra cuu ve da dat</h2>
+      <p class="muted" style="margin-bottom:14px;font-size:14px">
+        Nhap ma ve kem email ban da dung khi dat de xac thuc chu so huu.
+      </p>
+      <form id="lookupForm">
+        <div style="display:grid;grid-template-columns:1fr 1.3fr auto;gap:12px;align-items:end">
+          <div class="field">
+            <label for="code">Ma ve</label>
+            <input id="code" required placeholder="VD: ABC123" style="text-transform:uppercase" />
+          </div>
+          <div class="field">
+            <label for="email">Email da dung khi dat</label>
+            <input id="email" type="email" required placeholder="email@example.com" />
+          </div>
+          <button type="submit" class="btn btn-primary">Tra cuu</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/mybookings.js"></script>
+</body>
+</html>

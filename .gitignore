@@ -1,0 +1,8 @@
+node_modules/
+.env
+mail-dev/
+certs/
+npm-debug.log*
+*.log
+.DS_Store
+SECURITY.md

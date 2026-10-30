@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkyBooking - Dat ve may bay</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/"><span class="logo">&#9992;</span> SkyBooking</a>
+      <nav class="menu">
+        <a href="/" class="active">Tim chuyen bay</a>
+        <a href="/my-bookings.html">Ve cua toi</a>
+        <a href="/admin.html">Quan tri</a>
+      </nav>
+    </div>
+    <div class="hero">
+      <h1>Dat ve may bay noi dia gia tot</h1>
+      <p>Tim va dat ve nhanh chong tren khap cac chuyen bay Viet Nam</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Form tim kiem -->
+    <div class="card search-card">
+      <form id="searchForm" class="search-grid">
+        <div class="field">
+          <label for="from">Diem di</label>
+          <select id="from" name="from"><option value="">Tat ca</option></select>
+        </div>
+        <div class="field">
+          <label for="to">Diem den</label>
+          <select id="to" name="to"><option value="">Tat ca</option></select>
+        </div>
+        <div class="field">
+          <label for="date">Ngay di</label>
+          <input type="date" id="date" name="date" />
+        </div>
+        <div class="field">
+          <label for="passengers">So khach</label>
+          <select id="passengers" name="passengers">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">&#128269; Tim</button>
+      </form>
+    </div>
+
+    <!-- Ket qua -->
+    <div class="results-head">
+      <h2 id="resultsTitle">Chuyen bay goi y</h2>
+      <span class="muted" id="resultsCount"></span>
+    </div>
+    <div id="results"><div class="loading">Dang tai chuyen bay...</div></div>
+  </div>
+
+  <!-- Modal dat ve -->
+  <div class="modal-backdrop" id="bookModal">
+    <div class="modal">
+      <h3>Dat ve chuyen bay</h3>
+      <div class="summary-box" id="bookSummary"></div>
+      <form id="bookForm">
+        <div class="field">
+          <label for="pname">Ho ten hanh khach *</label>
+          <input id="pname" required placeholder="Nguyen Van A" />
+        </div>
+        <div class="field">
+          <label for="pemail">Email *</label>
+          <input id="pemail" type="email" required placeholder="email@example.com" />
+        </div>
+        <div class="field">
+          <label for="pphone">So dien thoai *</label>
+          <input id="pphone" required placeholder="09xxxxxxxx" />
+        </div>
+        <div class="field">
+          <label for="pcccd">So CCCD *</label>
+          <input id="pcccd" required inputmode="numeric" maxlength="12"
+                 placeholder="12 so tren the CCCD" />
+          <small class="muted" style="font-size:12px">
+            &#128274; CCCD, email va dien thoai duoc ma hoa AES-256-GCM truoc khi luu.
+          </small>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="bookCancel">Huy</button>
+          <button type="submit" class="btn btn-primary" id="bookSubmit">Xac nhan dat</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

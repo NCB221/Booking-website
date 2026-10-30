@@ -1,0 +1,34 @@
+{
+  "name": "flight-booking",
+  "version": "1.0.0",
+  "description": "Web dat ve may bay - Node.js + Express + MySQL",
+  "main": "bootstrap.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node bootstrap.js",
+    "dev": "node --watch bootstrap.js",
+    "bao-migrate": "node db/migrateToBao.js",
+    "bao-status": "node -e \"require('./lib/bao').health().then(h=>console.log(h))\"",
+    "init-db": "node db/init.js",
+    "setup-audit": "node db/setupAudit.js",
+    "verify-audit": "node db/verifyAudit.js",
+    "gen-key": "node lib/genkey.js",
+    "gen-cert": "node lib/gencert.js",
+    "audit": "npm audit --audit-level=moderate",
+    "sbom": "npm sbom --sbom-format cyclonedx --sbom-type application > sbom.cyclonedx.json && node -e \"const s=require('./sbom.cyclonedx.json');console.log('SBOM: '+s.components.length+' components -> sbom.cyclonedx.json')\"",
+    "security-check": "npm run audit && npm run verify-audit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "//dependencies": "Version duoc PIN CHINH XAC (khong dung ^ hay ~) theo OWASP A03:2025 - chon version co y thuc, nang cap chu dong sau khi xem xet. Cai bang 'npm ci' de dung dung lockfile.",
+  "dependencies": {
+    "cors": "2.8.6",
+    "dotenv": "16.6.1",
+    "express": "4.22.3",
+    "express-rate-limit": "7.4.1",
+    "helmet": "8.0.0",
+    "mysql2": "3.24.6",
+    "nodemailer": "10.1.2"
+  }
+}

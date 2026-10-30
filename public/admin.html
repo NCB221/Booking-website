@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quan tri - SkyBooking</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/"><span class="logo">&#9992;</span> SkyBooking <span style="font-size:14px;opacity:.8">Admin</span></a>
+      <nav class="menu">
+        <a href="/">Trang chu</a>
+        <a href="/admin.html" class="active">Quan tri</a>
+        <a href="#" id="logoutBtn" style="display:none">Dang xuat</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Dang nhap admin -->
+    <div id="loginView" class="card" style="max-width:420px;margin:40px auto">
+      <h2 style="margin-bottom:6px">Dang nhap quan tri</h2>
+      <p class="muted" style="margin-bottom:16px">
+        Nhap khoa admin (xem ADMIN_KEY trong file .env).
+        Phien dang nhap tu dong het han sau 2 gio.
+      </p>
+      <form id="loginForm">
+        <div class="field" style="margin-bottom:14px">
+          <label for="adminKey">Admin key</label>
+          <input id="adminKey" type="password" required placeholder="admin key" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Dang nhap</button>
+      </form>
+    </div>
+
+    <!-- Bang dieu khien -->
+    <div id="dashView" style="display:none">
+      <div class="stats" id="stats"></div>
+
+      <div class="card">
+        <div class="results-head">
+          <h2>Quan ly chuyen bay</h2>
+          <button class="btn btn-primary btn-sm" id="addFlightBtn">+ Them chuyen bay</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Chuyen</th><th>Hang</th><th>Chang</th><th>Khoi hanh</th>
+              <th>Gia</th><th>Ghe (con/tong)</th><th>Ve</th><th></th>
+            </tr></thead>
+            <tbody id="flightsBody"><tr><td colspan="8" class="loading">Dang tai...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="results-head">
+          <h2>Nhat ky API (Audit / Forensics)</h2>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input id="auditFilter" placeholder="Loc theo request_id / ma ve / IP"
+                   style="width:260px;padding:8px 10px;font-size:13px" />
+            <label style="font-size:13px;display:flex;align-items:center;gap:5px">
+              <input type="checkbox" id="auditFailedOnly" style="width:auto" /> Chi loi
+            </label>
+            <button class="btn btn-ghost btn-sm" id="auditReloadBtn">Tai lai</button>
+            <button class="btn btn-primary btn-sm" id="auditVerifyBtn">Kiem tra chuoi hash</button>
+          </div>
+        </div>
+        <div id="auditVerifyResult" style="margin-bottom:12px"></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>#</th><th>request_time</th><th>request_id</th><th>Method</th><th>Path</th>
+              <th>Status</th><th>ms</th><th>IP</th><th>Vai tro</th><th>Chu ky</th>
+              <th>Lech DH</th><th>body_sha256</th><th>Ma ve</th>
+            </tr></thead>
+            <tbody id="auditBody"><tr><td colspan="13" class="loading">Dang tai...</td></tr></tbody>
+          </table>
+        </div>
+        <div id="auditPager" class="muted" style="margin-top:10px;font-size:13px"></div>
+      </div>
+
+      <div class="card">
+        <div class="results-head">
+          <h2>Ve da dat</h2>
+          <span class="muted" style="font-size:13px">
+            &#128275; CCCD / email / dien thoai duoc giai ma tu AES-256-GCM
+          </span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Ma ve</th><th>Hanh khach</th><th>CCCD</th><th>Lien he</th><th>Chuyen</th>
+              <th>Ghe</th><th>Tong tien</th><th>Trang thai</th><th></th>
+            </tr></thead>
+            <tbody id="bookingsBody"><tr><td colspan="9" class="loading">Dang tai...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal them/sua chuyen bay -->
+  <div class="modal-backdrop" id="flightModal">
+    <div class="modal">
+      <h3 id="flightModalTitle">Them chuyen bay</h3>
+      <form id="flightForm">
+        <input type="hidden" id="fId" />
+        <div class="field"><label>So hieu chuyen bay</label><input id="fNumber" required placeholder="VN123" /></div>
+        <div class="field"><label>Hang bay</label><input id="fAirline" required placeholder="Vietnam Airlines" /></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="field"><label>Diem di</label><select id="fFrom" required></select></div>
+          <div class="field"><label>Diem den</label><select id="fTo" required></select></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="field"><label>Gio khoi hanh</label><input id="fDep" type="datetime-local" required /></div>
+          <div class="field"><label>Gio den</label><input id="fArr" type="datetime-local" required /></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="field"><label>Gia ve (VND)</label><input id="fPrice" type="number" min="0" step="1000" required /></div>
+          <div class="field"><label>Tong so ghe</label><input id="fSeats" type="number" min="1" required value="180" /></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="flightCancelBtn">Huy</button>
+          <button type="submit" class="btn btn-primary">Luu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
